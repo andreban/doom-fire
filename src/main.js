@@ -1,1 +1,1 @@
-import './doom-fire';
+import './doom-fire.mjs';

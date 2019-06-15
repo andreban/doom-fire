@@ -1,0 +1,9 @@
+{
+	"name": "DOOM Fire",
+	"short_name": "DOOM Fire",
+	"start_url": "/?utm_source=homescreen",
+	"theme_color": "#000000",
+	"background_color": "#000000",
+	"display": "standalone",
+	"scope": "/"
+}
