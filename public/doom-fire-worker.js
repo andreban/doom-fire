@@ -1,2 +1,160 @@
-!function(){"use strict";const t=[l(460551),l(2033415),l(3084039),l(4656903),l(5707527),l(6758151),l(7806727),l(9381639),l(10432263),l(11484935),l(12535559),l(13059847),l(14634759),l(14636807),l(14636807),l(14114567),l(14116623),l(13594383),l(13596431),l(13598479),l(13600535),l(13076247),l(13078295),l(13080351),l(12558111),l(12558111),l(12560167),l(12560167),l(12562223),l(12037935),l(12039983),l(12039991),l(13619055),l(14671775),l(15724487),l(16777215)],a=[],e=320,n=200;let o,r,f;function l(t){return{r:t>>16&255,g:t>>8&255,b:255&t}}function d(t,a){return a*e+t}function i(t,e,n){let o=d(t,e);a[o]=n}function s(t,e){let n=d(t,e);return a[n]}function u(){for(let a=0;a<e;a++)for(let o=0;o<n-1;o++){let r=3&Math.round(3*Math.random()),l=s(a,o);i(a+r-2,o+1,l-(1&r));let d=4*((n-o)*e+a);if(l>0){let a=t[l];f.data[d]=a.r,f.data[d+1]=a.g,f.data[d+2]=a.b,f.data[d+3]=255}else f.data[d]=0,f.data[d+1]=0,f.data[d+2]=0,f.data[d+3]=255}r.putImageData(f,0,0),self.requestAnimationFrame(u)}self.onmessage=function(t){if("init"===t.data.msg&&(o=t.data.canvas,r=o.getContext("2d"),function(){for(let t=0;t<e;t++)for(let a=1;a<n;a++)i(t,a,0);for(let t=0;t<e;t++)i(t,0,35)}()),"start"===t.data.msg){console.log("start"),f=r.getImageData(0,0,e,n);for(let t=0;t<f.data.length;t++)f.data[t]=128,t%4==3&&(f.data[t]=255);u()}}}();
+(function () {
+  'use strict';
+
+  const HTML_COLOR_SCALE = [
+    parseColor(0x070707), parseColor(0x1f0707), parseColor(0x2f0f07),
+    parseColor(0x470f07), parseColor(0x571707), parseColor(0x671f07),
+    parseColor(0x771f07), parseColor(0x8f2707), parseColor(0x9f2f07),
+    parseColor(0xaf3f07), parseColor(0xbf4707), parseColor(0xc74707),
+    parseColor(0xDF4F07), parseColor(0xDF5707), parseColor(0xDF5707),
+    parseColor(0xD75F07), parseColor(0xD7670F), parseColor(0xcf6f0f),
+    parseColor(0xcf770f), parseColor(0xcf7f0f), parseColor(0xCF8717),
+    parseColor(0xC78717), parseColor(0xC78F17), parseColor(0xC7971F),
+    parseColor(0xBF9F1F), parseColor(0xBF9F1F), parseColor(0xBFA727),
+    parseColor(0xBFA727), parseColor(0xBFAF2F), parseColor(0xB7AF2F),
+    parseColor(0xB7B72F), parseColor(0xB7B737), parseColor(0xCFCF6F),
+    parseColor(0xDFDF9F), parseColor(0xEFEFC7), parseColor(0xFFFFFF)   
+  ];
+  const BLE = 1000 / 27; // DoomFire runs at 27FPS.
+  class DoomFireAnimation {
+    constructor(ctx) {
+      this.flames = [];
+      this.width = 320;
+      this.height = 200;
+      this.ctx = ctx;
+      this.imageData = this.ctx.getImageData(0, 0, this.width, this.height);    
+      this._init();
+      this.lastUpdate = 0;
+      this.active = true;
+    }
+
+    posAt(x, y) {
+      return y * this.width + x;
+    }
+      
+    setValue(x, y, value) {
+      let pos = this.posAt(x, y);
+      this.flames[pos] = value; 
+    }
+
+    valueAt(x, y) {
+      let pos = this.posAt(x, y);
+      return this.flames[pos];
+    }  
+
+    _init() {
+      this._initCanvas();
+      this._initFlames();
+    }
+
+    _initFlames() {
+      // Initialise the flames.
+      for (let x = 0; x < this.width; x++) {
+        for (let y = 1; y < this.height; y++) {
+          this.setValue(x, y, 0);
+        }
+      }
+
+      for (let x = 0; x < this.width; x++) {
+        this.setValue(x, 0, 35);      
+      }
+    }
+    _initCanvas() {
+      // Initialise the canvas with black.
+      for (let i = 0; i < this.imageData.data.length; i++) {
+        this.imageData.data[i] = 0;
+        if (i % 4 == 3) this.imageData.data[i] = 255;
+      }
+    }
+
+    update() {
+      let now = performance.now();
+      if (now - this.lastUpdate < BLE) {
+        return;
+      }
+
+      performance.mark('start');
+      for (let srcY = 0; srcY < this.height; srcY++) {
+        const srcRow = srcY * this.width;
+        const dstRow = (srcY + 1) * this.width;
+        const imageRow = (this.height - srcY) * this.width;
+        for (let srcX = 0; srcX < this.width; srcX++) {      
+          const rand = Math.round(Math.random() * 3.0) & 3;
+    
+          const srcIndex = srcRow + srcX;
+          const srcColor = this.flames[srcIndex];
+          const dstColor = srcColor - (rand & 1);
+    
+          const dstX = srcX + rand - 1;
+            
+          const index = dstRow + dstX;
+          this.flames[index] = dstColor; 
+    
+          const pos = (imageRow + srcX) * 4;  
+          if (srcColor > 0) {
+            const color = HTML_COLOR_SCALE[srcColor];
+            this.imageData.data[pos] = color.r;
+            this.imageData.data[pos + 1] = color.g;
+            this.imageData.data[pos + 2] = color.b;
+            this.imageData.data[pos + 3] = 255;
+          } else {
+            this.imageData.data[pos] = 0;
+            this.imageData.data[pos + 1] = 0;
+            this.imageData.data[pos + 2] = 0;
+            this.imageData.data[pos + 3] = 255;        
+          }
+        }
+      }
+      this.ctx.putImageData(this.imageData, 0, 0);  
+      this.lastUpdate = now;
+      performance.mark('end');
+      performance.measure('elapsed', 'start', 'end');
+    }
+
+    toggle() {
+      if (this.active) {
+        for (let x = 0; x < this.width; x++) {
+          this.setValue(x, 0, 0);      
+        }    
+      } else {
+        for (let x = 0; x < this.width; x++) {
+          this.setValue(x, 0, 35);      
+        }    
+      }
+      this.active = !this.active;    
+    }  
+  }
+
+  function parseColor(color) {
+    const b = color & 0xFF;
+    const g = color >> 8 & 0xFF;
+    const r = color >> 16 & 0xFF;
+    return {r, g, b}
+  }
+
+  let canvas;
+  let doomFireAnimation;
+
+  function update() {
+    doomFireAnimation.update();
+    self.requestAnimationFrame(update);
+  }
+
+  self.onmessage = function(ev) {
+    if(ev.data.msg === 'init') {
+      canvas = ev.data.canvas;
+      let ctx = canvas.getContext('2d');
+      doomFireAnimation = new DoomFireAnimation(ctx);
+    }
+
+    if (ev.data.msg === 'start') {
+      update();
+    }
+
+    if (ev.data.msg === 'toggle') {
+      doomFireAnimation.toggle();
+    }  
+  };
+
+}());
 //# sourceMappingURL=doom-fire-worker.js.map
