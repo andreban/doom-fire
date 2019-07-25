@@ -132,67 +132,29 @@
     return {r, g, b}
   }
 
-  class DoomFire extends HTMLElement {
-    constructor() {
-      super();
-      this.active = true;
+  let canvas;
+  let doomFireAnimation;
 
-      // Create a Canvas to draw the flames.
-      this.canvas = document.createElement('canvas');
-      this.offscreen = typeof(this.canvas.transferControlToOffscreen) != 'undefined';
+  function update() {
+    doomFireAnimation.update();
+    self.requestAnimationFrame(update);
+  }
 
-      // Set size.
-      this.canvas.width = 320;
-      this.canvas.height = 200;
-
-      // Make it fill the whole element.
-      this.canvas.style.width = '100%';
-      this.canvas.style.height = '100%';
-
-      if (this.offscreen) {
-        const offscreenCanvas = this.canvas.transferControlToOffscreen();
-        offscreenCanvas.width = 320;
-        offscreenCanvas.height = 200;      
-        this.worker = new Worker('doom-fire-worker.js');
-        this.worker.postMessage({msg: 'init', canvas: offscreenCanvas}, [offscreenCanvas]);
-      } else {
-        let ctx = this.canvas.getContext('2d');
-        this.animation = new DoomFireAnimation(ctx);
-      }
-
-      const shadowRoot = this.attachShadow({mode: 'open'});
-      shadowRoot.appendChild(this.canvas);
-       
-      this.addEventListener('click', () => {
-        this.toggle();
-      });
+  self.onmessage = function(ev) {
+    if(ev.data.msg === 'init') {
+      canvas = ev.data.canvas;
+      let ctx = canvas.getContext('2d');
+      doomFireAnimation = new DoomFireAnimation(ctx);
     }
 
-    connectedCallback() {
-      if (this.offscreen) {
-        this.worker.postMessage({msg: 'start'});
-      } else {
-        this.update();
-      }
+    if (ev.data.msg === 'start') {
+      update();
+    }
+
+    if (ev.data.msg === 'toggle') {
+      doomFireAnimation.toggle();
     }  
-
-    toggle() {
-      if (this.offscreen) {
-        this.worker.postMessage({msg: 'toggle'});      
-      } else {
-        this.animation.toggle();
-      }    
-    }
-
-    update() {
-      this.animation.update();
-      window.requestAnimationFrame(this.update.bind(this));
-    }
-  }
-
-  if (!customElements.get('doom-fire')) {
-    customElements.define('doom-fire', DoomFire);
-  }
+  };
 
 }());
-//# sourceMappingURL=bundle.js.map
+//# sourceMappingURL=doom-fire-worker.js.map
