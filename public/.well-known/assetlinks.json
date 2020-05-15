@@ -1,0 +1,8 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.doom_fire.twa",
+      "sha256_cert_fingerprints": ["F6:01:12:78:BD:E1:88:52:D5:0F:05:2A:5E:62:A7:67:43:83:51:C6:3D:43:39:D0:4E:27:C9:D8:F1:1B:A1:6F",
+        "DA:82:41:AD:E9:6F:27:BC:AD:B7:A5:9F:58:6A:AC:A6:4B:79:D3:BA:05:30:60:DF:D5:21:61:19:00:27:1F:5A"]}
+  }]
