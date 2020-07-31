@@ -31,11 +31,15 @@ self.__precacheManifest = [
   },
   {
     "url": "bundle.js",
-    "revision": "282369d28fd892ecf10edc01715e5939"
+    "revision": "d0fe2ff81170acaae5751c1ad68d7236"
+  },
+  {
+    "url": "doom-fire-worker.js",
+    "revision": "9171e69af317546956fd020df8ef8e2c"
   },
   {
     "url": "index.html",
-    "revision": "62be758c84d86d7a376a7f68560b9827"
+    "revision": "0c0cac6b71f479f4cb422f1804be7b60"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
