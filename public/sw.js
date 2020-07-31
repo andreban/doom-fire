@@ -31,11 +31,11 @@ self.__precacheManifest = [
   },
   {
     "url": "bundle.js",
-    "revision": "d0fe2ff81170acaae5751c1ad68d7236"
+    "revision": "0c0b103f9ba878b88edb2b1cab64b2d3"
   },
   {
     "url": "doom-fire-worker.js",
-    "revision": "9171e69af317546956fd020df8ef8e2c"
+    "revision": "3a16169c92047d54968d112bdbe7b4eb"
   },
   {
     "url": "index.html",
