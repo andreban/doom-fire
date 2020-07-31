@@ -19,12 +19,14 @@ export default class DoomFire extends HTMLElement {
     this.canvas.style.height = '100%';
 
     if (this.offscreen) {
+      console.log('Rendering with Offscreen Canvas.');
       const offscreenCanvas = this.canvas.transferControlToOffscreen();
       offscreenCanvas.width = 320;
       offscreenCanvas.height = 200;      
       this.worker = new Worker('doom-fire-worker.js');
       this.worker.postMessage({msg: 'init', canvas: offscreenCanvas}, [offscreenCanvas]);
     } else {
+      console.log('Rendering with regular Canvas.');
       let ctx = this.canvas.getContext('2d');
       this.animation = new DoomFireAnimation(ctx);
     }
