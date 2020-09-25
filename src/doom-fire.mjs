@@ -18,6 +18,9 @@ export default class DoomFire extends HTMLElement {
     this.canvas.style.width = '100%';
     this.canvas.style.height = '100%';
 
+    // Make the rendering pixelated, for a retro effect,
+    this.canvas.style.imageRendering = 'pixelated';
+
     if (this.offscreen) {
       console.log('Rendering with Offscreen Canvas.');
       const offscreenCanvas = this.canvas.transferControlToOffscreen();
