@@ -1,5 +1,12 @@
 export class FullscreenController {
   static setup(buttonElement, fullscreenElement) {
+    if (!fullscreenElement.requestFullscreen) {
+      console.log('Fullscreen API is not supported 😞');
+      return;
+    }
+    console.log('Fullscreen API supported 🎉')
+
+    buttonElement.classList.remove('hidden');
     buttonElement.addEventListener('click', async () => {
       try {
         if (document.fullscreenElement) {

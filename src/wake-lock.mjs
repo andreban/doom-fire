@@ -29,6 +29,7 @@ export class WakeLockController {
 
   static setup(keepAwakeButton) {
     if (!'wakeLock' in navigator) {
+      console.log('Wake Lock API is not supported 😞');
       return;
     }
 
