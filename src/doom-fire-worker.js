@@ -1,22 +1,14 @@
 import DoomFireAnimation from './doom-fire-animation.mjs';
 
-let canvas;
 let doomFireAnimation;
-
-function update() {
-  doomFireAnimation.update();
-  self.requestAnimationFrame(update);
-}
 
 self.onmessage = function(ev) {
   if(ev.data.msg === 'init') {
-    canvas = ev.data.canvas;
-    let ctx = canvas.getContext('2d');
-    doomFireAnimation = new DoomFireAnimation(ctx);
+    doomFireAnimation = new DoomFireAnimation(self, ev.data.canvas);
   }
 
   if (ev.data.msg === 'start') {
-    update();
+    doomFireAnimation.start();
   }
 
   if (ev.data.msg === 'toggle') {

@@ -8,11 +8,11 @@ export default class DoomFire extends HTMLElement {
 
     // Create a Canvas to draw the flames.
     this.canvas = document.createElement('canvas');
-    this.offscreen = typeof(this.canvas.transferControlToOffscreen) != 'undefined';
+    this.offscreen = "OffscreenCanvas" in window;
 
     // Set size.
     this.canvas.width = 320;
-    this.canvas.height = 200;
+    this.canvas.height = 168;
 
     // Make it fill the whole element.
     this.canvas.style.width = '100%';
@@ -25,13 +25,12 @@ export default class DoomFire extends HTMLElement {
       console.log('Rendering with Offscreen Canvas.');
       const offscreenCanvas = this.canvas.transferControlToOffscreen();
       offscreenCanvas.width = 320;
-      offscreenCanvas.height = 200;      
+      offscreenCanvas.height = 168;      
       this.worker = new Worker('doom-fire-worker.js');
       this.worker.postMessage({msg: 'init', canvas: offscreenCanvas}, [offscreenCanvas]);
     } else {
       console.log('Rendering with regular Canvas.');
-      let ctx = this.canvas.getContext('2d');
-      this.animation = new DoomFireAnimation(ctx);
+      this.animation = new DoomFireAnimation(window, this.canvas);
     }
 
     const shadowRoot = this.attachShadow({mode: 'open'});
@@ -46,7 +45,7 @@ export default class DoomFire extends HTMLElement {
     if (this.offscreen) {
       this.worker.postMessage({msg: 'start'});
     } else {
-      this.update();
+      this.animation.start();
     }
   }  
 
@@ -56,11 +55,6 @@ export default class DoomFire extends HTMLElement {
     } else {
       this.animation.toggle();
     }    
-  }
-
-  update() {
-    this.animation.update();
-    window.requestAnimationFrame(this.update.bind(this));
   }
 }
 

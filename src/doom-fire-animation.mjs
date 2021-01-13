@@ -12,13 +12,15 @@ const HTML_COLOR_SCALE = [
   parseColor(0xB7B72F), parseColor(0xB7B737), parseColor(0xCFCF6F),
   parseColor(0xDFDF9F), parseColor(0xEFEFC7), parseColor(0xFFFFFF)   
 ];
-const BLE = 1000 / 27; // DoomFire runs at 27FPS.
+const UPDATE_INTERVAL = 1000 / 27; // DoomFire runs at 27FPS.
 export default class DoomFireAnimation {
-  constructor(ctx) {
+  constructor(parent, canvas) {
+    this.canvas = canvas;
+    this.parent = parent;
     this.flames = [];
     this.width = 320;
-    this.height = 200;
-    this.ctx = ctx;
+    this.height = 168;
+    this.ctx = canvas.getContext('2d');
     this.imageData = this.ctx.getImageData(0, 0, this.width, this.height);    
     this._init();
     this.lastUpdate = 0;
@@ -64,19 +66,23 @@ export default class DoomFireAnimation {
     }
   }
 
-  update() {
+  start() {
+    requestAnimationFrame(this._update.bind(this));
+  }
+
+  _update() {
     let now = performance.now();
-    if (now - this.lastUpdate < BLE) {
+    if (now - this.lastUpdate < UPDATE_INTERVAL) {
+      this.parent.requestAnimationFrame(this._update.bind(this));
       return;
     }
 
-    performance.mark('start');
     for (let srcY = 0; srcY < this.height; srcY++) {
       const srcRow = srcY * this.width;
       const dstRow = (srcY + 1) * this.width;
       const imageRow = (this.height - srcY) * this.width;
       for (let srcX = 0; srcX < this.width; srcX++) {      
-        const rand = Math.round(Math.random() * 3.0) & 3;
+        const rand = Math.round(Math.random() * 3.0);
   
         const srcIndex = srcRow + srcX;
         const srcColor = this.flames[srcIndex];
@@ -104,8 +110,7 @@ export default class DoomFireAnimation {
     }
     this.ctx.putImageData(this.imageData, 0, 0);  
     this.lastUpdate = now;
-    performance.mark('end');
-    performance.measure('elapsed', 'start', 'end');
+    this.parent.requestAnimationFrame(this._update.bind(this));
   }
 
   toggle() {
