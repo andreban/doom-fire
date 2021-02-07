@@ -71,6 +71,14 @@ export default class DoomFire extends HTMLElement {
       this.animation.toggle();
     }    
   }
+
+  addWind(amount) {
+    if (this.offscreen) {
+      this.worker.postMessage({msg: 'wind', amount: amount});      
+    } else {
+      this.animation.addWind(amount);
+    }
+  }
 }
 
 if (!customElements.get('doom-fire')) {

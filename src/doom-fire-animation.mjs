@@ -41,6 +41,7 @@ export default class DoomFireAnimation {
     this._init();
     this.lastUpdate = 0;
     this.active = true;
+    this.wind = 0;
   }
 
   posAt(x, y) {
@@ -71,9 +72,10 @@ export default class DoomFireAnimation {
     }
 
     for (let x = 0; x < this.width; x++) {
-      this.setValue(x, 0, 35);      
+      this.setValue(x, this.height - 1, 35);      
     }
   }
+
   _initCanvas() {
     // Initialise the canvas with black.
     for (let i = 0; i < this.imageData.data.length; i++) {
@@ -95,21 +97,27 @@ export default class DoomFireAnimation {
 
     for (let srcY = 0; srcY < this.height; srcY++) {
       const srcRow = srcY * this.width;
-      const dstRow = (srcY + 1) * this.width;
-      const imageRow = (this.height - srcY) * this.width;
-      for (let srcX = 0; srcX < this.width; srcX++) {      
-        const rand = Math.round(Math.random() * 3.0);
-  
+      const dstRow = (srcY - 1) * this.width;
+      for (let srcX = 0; srcX < this.width; srcX++) {        
         const srcIndex = srcRow + srcX;
         const srcColor = this.flames[srcIndex];
-        const dstColor = srcColor - (rand & 1);
+
+        if (srcY > 0) {
+          const rand = Math.floor(Math.random() * 3.0);
+          const dstColor = srcColor > 0 ? srcColor - (rand & 1) : 0;
   
-        const dstX = srcX + rand - 1;
-          
-        const index = dstRow + dstX;
-        this.flames[index] = dstColor; 
+          let dstX = srcX + rand - 1 + this.wind;
+          if (dstX >= this.width) {
+            dstX = dstX - this.width;
+          } else if (dstX < 0) {
+            dstX = dstX + this.width;
+          }
+            
+          const index = dstRow + dstX;
+          this.flames[index] = dstColor; 
+        }
   
-        const pos = (imageRow + srcX) * 4;  
+        const pos = (srcRow + srcX) * 4;  
         if (srcColor > 0) {
           const color = HTML_COLOR_SCALE[srcColor];
           this.imageData.data[pos] = color.r;
@@ -132,15 +140,19 @@ export default class DoomFireAnimation {
   toggle() {
     if (this.active) {
       for (let x = 0; x < this.width; x++) {
-        this.setValue(x, 0, 0);      
+        this.setValue(x, this.height - 1, 0);      
       }    
     } else {
       for (let x = 0; x < this.width; x++) {
-        this.setValue(x, 0, 35);      
+        this.setValue(x, this.height - 1, 35);      
       }    
     }
     this.active = !this.active;    
-  }  
+  }
+
+  addWind(amount) {
+    this.wind += amount;
+  }
 }
 
 function parseColor(color) {

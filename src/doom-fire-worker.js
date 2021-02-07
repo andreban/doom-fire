@@ -29,5 +29,9 @@ self.onmessage = function(ev) {
 
   if (ev.data.msg === 'toggle') {
     doomFireAnimation.toggle();
-  }  
+  }
+
+  if (ev.data.msg === 'wind') {
+    doomFireAnimation.addWind(ev.data.amount);
+  }
 }

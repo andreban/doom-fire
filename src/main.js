@@ -20,6 +20,7 @@ import {FullscreenController} from './fullscreen.mjs';
 import {isTrustedWebActivity} from './trusted-web-activity.mjs';
 import './service-worker.mjs';
 
+let doomFire;
 const audioElement = document.querySelector('#audio');
 const fullscreenButton = document.querySelector('#fullscreen');
 FullscreenController.setup(fullscreenButton, document.body);
@@ -42,3 +43,18 @@ if (isTrustedWebActivity('com.doom_fire.twa')) {
   console.log('Running in Trusted Web Activity Mode!');
   fullscreenButton.classList.add('hidden');
 }
+
+document.addEventListener('keydown', (e) => {
+  if (doomFire) {
+    if (e.key === 'ArrowLeft') {
+      doomFire.addWind(-1);
+    } else if (e.key == 'ArrowRight') {
+      doomFire.addWind(1);
+    }
+  }
+});
+
+customElements.whenDefined('doom-fire')
+  .then(() => {
+    doomFire = document.querySelector('doom-fire');
+  });
