@@ -1924,7 +1924,7 @@
 
     // Use the imported Workbox libraries to implement caching,
     // routing, and other logic:
-    precacheAndRoute([{"revision":"5819f03aef2eab82d414f89faaa8b576","url":"bundle.js"},{"revision":"132b6aa8334bbd822c8d10eea51c57a6","url":"doom-fire-worker.js"},{"revision":"0a27a4163254fc8fce870c8cc3a3f94f","url":"404.html"},{"revision":"9db006d89dc71f1ce7bfef078f37bc08","url":"index.html"}]);
+    precacheAndRoute([{"revision":"a67dd222dfd25d6885cca1d88558f083","url":"bundle.js"},{"revision":"2b03517c5a6d2aced31b5c847852502a","url":"doom-fire-worker.js"},{"revision":"0a27a4163254fc8fce870c8cc3a3f94f","url":"404.html"},{"revision":"9db006d89dc71f1ce7bfef078f37bc08","url":"index.html"}]);
 
 }());
 //# sourceMappingURL=sw.js.map

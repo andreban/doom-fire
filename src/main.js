@@ -59,7 +59,21 @@ document.addEventListener('keydown', (e) => {
 
 if (window.DeviceOrientationEvent) {
   window.addEventListener('deviceorientation', (e) => {
-    wind = -Math.round(e.gamma / 10);
+    const orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+    switch (orientation) {
+      case 'portrait-primary':
+        wind = -Math.round(e.gamma / 10);
+        break;
+      case 'portrait-secondary':
+        wind = Math.round(e.gamma / 10);
+        break;
+      case 'landscape-primary':
+        wind = -Math.round(e.beta / 10);
+        break;
+      case 'landscape-secondary':
+        wind = Math.round(e.beta / 10);
+        break;
+    }
     doomFire.setWind(wind);
   });
 }
