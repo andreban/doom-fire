@@ -150,8 +150,8 @@ export default class DoomFireAnimation {
     this.active = !this.active;    
   }
 
-  addWind(amount) {
-    this.wind += amount;
+  setWind(amount) {
+    this.wind = amount;
   }
 }
 

@@ -23,7 +23,7 @@ export default class DoomFire extends HTMLElement {
 
     // Create a Canvas to draw the flames.
     this.canvas = document.createElement('canvas');
-    this.offscreen = "OffscreenCanvas" in window;
+    this.offscreen = false;//'OffscreenCanvas' in window;
 
     // Set size.
     this.canvas.width = 320;
@@ -72,11 +72,11 @@ export default class DoomFire extends HTMLElement {
     }    
   }
 
-  addWind(amount) {
+  setWind(amount) {
     if (this.offscreen) {
       this.worker.postMessage({msg: 'wind', amount: amount});      
     } else {
-      this.animation.addWind(amount);
+      this.animation.setWind(amount);
     }
   }
 }

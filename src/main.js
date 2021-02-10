@@ -21,6 +21,7 @@ import {isTrustedWebActivity} from './trusted-web-activity.mjs';
 import './service-worker.mjs';
 
 let doomFire;
+let wind = 0;
 const audioElement = document.querySelector('#audio');
 const fullscreenButton = document.querySelector('#fullscreen');
 FullscreenController.setup(fullscreenButton, document.body);
@@ -47,12 +48,21 @@ if (isTrustedWebActivity('com.doom_fire.twa')) {
 document.addEventListener('keydown', (e) => {
   if (doomFire) {
     if (e.key === 'ArrowLeft') {
-      doomFire.addWind(-1);
+      wind--;
+      doomFire.setWind(wind);
     } else if (e.key == 'ArrowRight') {
-      doomFire.addWind(1);
+      wind++;
+      doomFire.setWind(wind);
     }
   }
 });
+
+if (window.DeviceOrientationEvent) {
+  window.addEventListener('deviceorientation', (e) => {
+    wind = -Math.round(e.gamma / 10);
+    doomFire.setWind(wind);
+  });
+}
 
 customElements.whenDefined('doom-fire')
   .then(() => {
