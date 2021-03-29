@@ -1,6 +1,7 @@
 {
   "name": "DOOM Fire",
   "short_name": "DOOM Fire",
+  "description": "An implementation of the fire animation used on the PSX port of the game in modern JavaScript.",
   "start_url": "/?utm_source=homescreen",
   "theme_color": "#000000",
   "background_color": "#000000",
@@ -16,6 +17,13 @@
       "src": "/icons/fire.svg",
       "type": "image/svg",
       "sizes": "48x48 72x72 96x96 128x128 512x512"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/doom-fire.png",
+      "type": "image/png",
+      "sizes": "1440x2960"
     }
   ]
 }
