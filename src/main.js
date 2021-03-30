@@ -40,6 +40,8 @@ soundButton.addEventListener('click', () => {
   }
 });
 
+const installButton = document.querySelector('#install');
+
 if (isTrustedWebActivity('com.doom_fire.twa')) {
   console.log('Running in Trusted Web Activity Mode!');
   fullscreenButton.classList.add('hidden');
@@ -77,6 +79,22 @@ if (window.DeviceOrientationEvent) {
     doomFire.setWind(wind);
   });
 }
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installButton.classList.remove('hidden');
+  console.log(`'beforeinstallprompt' event was fired.`);
+});
+
+installButton.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const {outcome} = await deferredPrompt.userChoice;
+    console.log(`User response to the install prompt: ${outcome}`);
+  }
+});
 
 customElements.whenDefined('doom-fire')
   .then(() => {

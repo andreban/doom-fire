@@ -23,7 +23,7 @@ export default class DoomFire extends HTMLElement {
 
     // Create a Canvas to draw the flames.
     this.canvas = document.createElement('canvas');
-    this.offscreen = false;//'OffscreenCanvas' in window;
+    this.offscreen = 'OffscreenCanvas' in window;
 
     // Set size.
     this.canvas.width = 320;

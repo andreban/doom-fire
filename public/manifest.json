@@ -9,21 +9,32 @@
   "scope": "/",
   "icons": [
     {
-      "src": "/icons/fire.png",
+      "src": "/icons/fire-new-192.png",
       "type": "image/png",
-      "sizes": "256x256"
+      "sizes": "192x192"
     },
     {
-      "src": "/icons/fire.svg",
-      "type": "image/svg",
-      "sizes": "48x48 72x72 96x96 128x128 512x512"
+      "src": "/icons/fire-new.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/icons/fire-maskable-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
     {
-      "src": "/assets/doom-fire.png",
+      "src": "/assets/screenshot2-1920x1080.png",
       "type": "image/png",
-      "sizes": "1440x2960"
+      "sizes": "1080x1920"
+    },
+    {
+      "src": "/assets/screenshot1-1920x1080.png",
+      "type": "image/png",
+      "sizes": "1080x1920"
     }
   ]
 }
