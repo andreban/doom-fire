@@ -29,7 +29,7 @@
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-workbox-inject": "^2.0.0",
     "serve": "^14.1.1",
-    "workbox-cli": "^5.1.4"
+    "workbox-cli": "^6.5.4"
   },
   "dependencies": {
     "workbox-precaching": "^5.1.4"
