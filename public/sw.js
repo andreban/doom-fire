@@ -107,7 +107,7 @@
       license that can be found in the LICENSE file or at
       https://opensource.org/licenses/MIT.
     */
-    const logger = (null );
+    const logger = ( null );
 
     /*
       Copyright 2018 Google LLC
@@ -123,7 +123,8 @@
         }
         return msg;
     };
-    const messageGenerator = fallback ;
+    const messageGenerator = 
+        fallback ;
 
     /*
       Copyright 2018 Google LLC
@@ -165,7 +166,7 @@
       license that can be found in the LICENSE file or at
       https://opensource.org/licenses/MIT.
     */
-    const finalAssertExports = null ;
+    const finalAssertExports =  null ;
 
     /*
       Copyright 2018 Google LLC
@@ -1254,7 +1255,7 @@
 
     // Use the imported Workbox libraries to implement caching,
     // routing, and other logic:
-    precacheAndRoute([{"revision":"eaa8ea696170ee97875b51248fef0a9a","url":"bundle.js"},{"revision":"2b03517c5a6d2aced31b5c847852502a","url":"doom-fire-worker.js"},{"revision":"0a27a4163254fc8fce870c8cc3a3f94f","url":"404.html"},{"revision":"ee29e937a6cc093e5686d57dd9645081","url":"index.html"}]);
+    precacheAndRoute([{"revision":"95beace530ce617aa24db2884f8a49b7","url":"bundle.js"},{"revision":"132b6aa8334bbd822c8d10eea51c57a6","url":"doom-fire-worker.js"},{"revision":"0a27a4163254fc8fce870c8cc3a3f94f","url":"404.html"},{"revision":"ee29e937a6cc093e5686d57dd9645081","url":"index.html"}]);
 
 }());
 //# sourceMappingURL=sw.js.map
